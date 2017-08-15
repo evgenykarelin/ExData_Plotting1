@@ -26,5 +26,5 @@ legend("topright", col = c("black","red", "blue"), legend = c("Sub_metering_1", 
 plot(dt2$Global_reactive_power, type="l", xlab="datetime", ylab = "Global_reactive_power",xaxt="n")
 axis(1, at=c(1,friday,numrows), labels=c("Thu", "Fri", "Sat"))
 
-dev.copy(png, file = "plot4.png")
+dev.copy(png, file = "plot4.png",height = 480, width = 480)
 dev.off()

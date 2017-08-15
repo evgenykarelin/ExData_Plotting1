@@ -6,5 +6,5 @@ dt[,1]<-dt[,lapply(.SD,strptime,format = "%d/%m/%Y"), .SDcols=c("Date")]
 dt2<-dt[(dateVector$Date>= as.POSIXlt("2007-02-01"))&(dateVector$Date<= as.POSIXlt("2007-02-02")),]
 
 hist(dt2$Global_active_power, col="red", main="Global Active Power", xlab = "Global Avtive Power (kilowatts)")
-dev.copy(png, file = "plot1.png")
+dev.copy(png, file = "plot1.png", height = 480, width = 480)
 dev.off()
