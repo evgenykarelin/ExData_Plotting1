@@ -1,0 +1,30 @@
+library(data.table)
+dt<-fread("household_power_consumption.txt", sep=";", na.strings = "?", header = TRUE)
+#converting first column to date type
+dt[,1]<-dt[,lapply(.SD,strptime,format = "%d/%m/%Y"), .SDcols=c("Date")]
+#subsetting required data
+dt2<-dt[(dateVector$Date>= as.POSIXlt("2007-02-01"))&(dateVector$Date<= as.POSIXlt("2007-02-02")),]
+
+#getting positions of labels
+friday<-match(as.POSIXct("2007-02-02"), dt2$Date)
+numrows<-nrow(dt2)
+
+par(mfrow = c(2, 2))
+plot(dt2$Global_active_power, type="l", xlab="", ylab = "Global Avtive Power (kilowatts)",xaxt="n")
+axis(1, at=c(1,friday,numrows), labels=c("Thu", "Fri", "Sat"))
+
+plot(dt2$Voltage, type="l", xlab="datetime", ylab = "Voltage",xaxt="n")
+axis(1, at=c(1,friday,numrows), labels=c("Thu", "Fri", "Sat"))
+
+
+plot(dt2$Sub_metering_1, type="l", xlab="", ylab = "Energy sub metering",xaxt="n")
+lines(dt2$Sub_metering_2, col="red", type="l")
+lines(dt2$Sub_metering_3, col="blue", type="l")
+axis(1, at=c(1,friday,numrows), labels=c("Thu", "Fri", "Sat"))
+legend("topright", col = c("black","red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),lty=1)
+
+plot(dt2$Global_reactive_power, type="l", xlab="datetime", ylab = "Global_reactive_power",xaxt="n")
+axis(1, at=c(1,friday,numrows), labels=c("Thu", "Fri", "Sat"))
+
+dev.copy(png, file = "plot4.png")
+dev.off()
